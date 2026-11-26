@@ -8,6 +8,15 @@ is now unbothered by it. The punch lands fast: the cat is not sorry,
 it just wants tuna as a bribe. "Tuna bribes accepted" gives Biscuit a
 cheeky, unbothered attitude, and ending on a deadpan "Meow." sells it
 as a real recorded greeting spoken aloud in a few seconds.
+
+Revision note: the greeting keeps its shape on purpose — name first,
+then the crime, then the voicemail instruction, then the payoff — so a
+caller hears a complete greeting before the beep instead of a setup
+with no ending. Every beat is cat-specific (no generic joke with the
+word "cat" dropped in), Biscuit speaks in the first person throughout
+so the voice stays a character rather than an owner describing a pet,
+and the final "Meow." is the joke's full stop: a cat signing off its
+own recording exactly as it would end a call.
 """
 
 import os
@@ -15,7 +24,7 @@ import os
 # Biscuit's greeting: specific cat behaviour (knocking things off),
 # a clear voicemail shape ("leave a message after the beep"), and a
 # greedy little payoff (tuna bribes) — all in the cat's own voice.
-LINE = "Hi, it's Biscuit. I knocked your phone off the table, so leave a message after the beep. Tuna bribes accepted. Meow."
+LINE = "Hi, it's Biscuit. I knocked your phone off. Leave a message after the beep. Tuna bribes accepted. No refunds. Meow."
 
 
 def validate(text):
@@ -34,6 +43,8 @@ def validate(text):
         raise ValueError("entry must not have leading/trailing space")
     if "  " in text:
         raise ValueError("entry must not contain double spaces")
+    if any(ord(c) < 32 for c in text):
+        raise ValueError("entry must not contain control characters")
 
 
 def main():
